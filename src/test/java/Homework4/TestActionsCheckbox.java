@@ -29,15 +29,14 @@ public class TestActionsCheckbox {
     public void checkbox(){
         WebElement airbags = driver.findElement(By.name("airbags"));
 
-        Actions checkAirbags = new Actions(driver);
-        checkAirbags.click(airbags).perform();
+        Actions checkBoxes = new Actions(driver);
+        checkBoxes.click(airbags).perform();
 
         assertEquals(airbags.getAttribute("name"), "airbags", "Checkbox Air Bags is not selected");
 
         WebElement parkingSensor = driver.findElement(By.name("parksensor"));
 
-        Actions checkParkingSensor = new Actions(driver);
-        checkParkingSensor.click(parkingSensor).perform();
+        checkBoxes.click(parkingSensor).perform();
 
         assertEquals(parkingSensor.getAttribute("name"), "parksensor", "Checkbox Parking Sensor is not selected");
 

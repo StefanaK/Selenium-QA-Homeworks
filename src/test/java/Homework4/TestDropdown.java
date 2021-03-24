@@ -27,7 +27,7 @@ public class TestDropdown {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get("http://shop.pragmatic.bg/admin/index.php?route=sale/order&user_token=4GAcrE1f7Ai5HSEoPCg4JIQswWz0qsMe");
+        driver.get("http://shop.pragmatic.bg/admin/");
     }
 
 
@@ -47,7 +47,15 @@ public class TestDropdown {
 
         Assert.assertEquals(logIn, "Milen Strahinski", "problem with the log in");
 
+        WebElement sales = driver.findElement(By.id("menu-sale"));
+        sales.click();
+
+        WebElement orders = driver.findElement(By.linkText("Orders"));
+        orders.click();
+
+
         WebElement element = driver.findElement(By.id("input-order-status"));
+
         Select check = new Select(element);
 
         assertFalse(check.isMultiple());
@@ -55,7 +63,7 @@ public class TestDropdown {
 
         List<String> exp_options = new ArrayList<>(Arrays.asList("", "Missing Orders", "Canceled", "Canceled Reversal",
                 "Chargeback", "Complete","Denied", "Expired", "Failed", "Pending", "Processed", "Processing",
-        "Refunded", "Reversed", "Shipped", "Voided"));
+                "Refunded", "Reversed", "Shipped", "Voided"));
 
         List<String> act_options = new ArrayList<>();
         List<WebElement> allOptions = check.getOptions();
