@@ -47,10 +47,10 @@ public class TestDropdown {
 
         Assert.assertEquals(logIn, "Milen Strahinski", "problem with the log in");
 
-        WebElement sales = driver.findElement(By.id("menu-sale"));
+        WebElement sales = driver.findElement(By.cssSelector("li#menu-sale>a"));
         sales.click();
 
-        WebElement orders = driver.findElement(By.linkText("Orders"));
+        WebElement orders = driver.findElement(By.cssSelector("ul#collapse4>li:nth-child(1)>a"));
         orders.click();
 
 
