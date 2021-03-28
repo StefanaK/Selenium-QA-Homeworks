@@ -1,4 +1,4 @@
-package Homework5;
+package utils;
 
 import com.google.common.base.Function;
 import org.openqa.selenium.*;
@@ -14,26 +14,26 @@ import java.util.concurrent.TimeUnit;
  * Wait tool class. Provides Wait methods for an elements, and AJAX elements to
  * load. It uses WebDriverWait (explicit wait) for waiting an element or
  * javaScript.
- * 
+ *
  * To use implicitlyWait() and WebDriverWait() in the same test, we would have
  * to nullify implicitlyWait() before calling WebDriverWait(), and reset after
  * it. This class takes care of it.
- * 
- * 
+ *
+ *
  * Generally relying on implicitlyWait slows things down so use WaitTool�s
  * explicit wait methods as much as possible. Also, consider
  * (DEFAULT_WAIT_4_PAGE = 0) for not using implicitlyWait for a certain test.
- * 
+ *
  * @author Chon Chung, Mark Collin, Andre, Tarun Kumar
- * 
+ *
  * @todo check FluentWait --
  *       http://seleniumsimplified.com/2012/08/22/fluentwait-with-webelement/
- * 
+ *
  *       Copyright [2012] [Chon Chung]
- * 
+ *
  *       Licensed under the Apache Open Source License, Version 2.0
  *       http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  */
 public class WaitTool {
 
@@ -49,19 +49,19 @@ public class WaitTool {
 	/**
 	 * Wait for the element to be present in the DOM, and displayed on the page.
 	 * And returns the first WebElement using the given method.
-	 * 
-	 * @param WebDriver
+	 *
+	 * @param driver
 	 *            The driver object to be used
-	 * @param By
+	 * @param by
 	 *            selector to find the element
-	 * @param int The time in seconds to wait until returning a failure
-	 * 
+	 * @param timeOutInSeconds The time in seconds to wait until returning a failure
+	 *
 	 * @return WebElement the first WebElement using the given method, or null
 	 *         (if the timeout is reached)
 	 */
 	public static WebElement waitForElement(WebDriver driver, final By by,
-			int timeOutInSeconds) {
-		
+											int timeOutInSeconds) {
+
 		WebElement element;
 		try {
 			// To use WebDriverWait(), we would have to nullify
@@ -71,7 +71,7 @@ public class WaitTool {
 			// info from:
 			// https://groups.google.com/forum/?fromgroups=#!topic/selenium-users/6VO_7IXylgY
 			driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS); // nullify
-																			// implicitlyWait()
+			// implicitlyWait()
 
 			WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
 			element = wait.until(ExpectedConditions
@@ -79,7 +79,7 @@ public class WaitTool {
 
 			driver.manage().timeouts()
 					.implicitlyWait(DEFAULT_WAIT_4_PAGE, TimeUnit.SECONDS); // reset
-																			// implicitlyWait
+			// implicitlyWait
 			return element; // return the element
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -91,22 +91,22 @@ public class WaitTool {
 	 * Wait for the element to be present in the DOM, regardless of being
 	 * displayed or not. And returns the first WebElement using the given
 	 * method.
-	 * 
-	 * @param WebDriver
+	 *
+	 * @param driver
 	 *            The driver object to be used
-	 * @param By
+	 * @param by
 	 *            selector to find the element
-	 * @param int The time in seconds to wait until returning a failure
-	 * 
+	 * @param timeOutInSeconds The time in seconds to wait until returning a failure
+	 *
 	 * @return WebElement the first WebElement using the given method, or null
 	 *         (if the timeout is reached)
 	 */
 	public static WebElement waitForElementPresent(WebDriver driver,
-			final By by, int timeOutInSeconds) {
+												   final By by, int timeOutInSeconds) {
 		WebElement element;
 		try {
 			driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS); // nullify
-																			// implicitlyWait()
+			// implicitlyWait()
 
 			WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
 			element = wait.until(ExpectedConditions
@@ -114,7 +114,7 @@ public class WaitTool {
 
 			driver.manage().timeouts()
 					.implicitlyWait(DEFAULT_WAIT_4_PAGE, TimeUnit.SECONDS); // reset
-																			// implicitlyWait
+			// implicitlyWait
 			return element; // return the element
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,22 +125,22 @@ public class WaitTool {
 	/**
 	 * Wait for the List<WebElement> to be present in the DOM, regardless of
 	 * being displayed or not. Returns all elements within the current page DOM.
-	 * 
-	 * @param WebDriver
+	 *
+	 * @param driver
 	 *            The driver object to be used
-	 * @param By
+	 * @param by
 	 *            selector to find the element
-	 * @param int The time in seconds to wait until returning a failure
-	 * 
+	 * @param timeOutInSeconds The time in seconds to wait until returning a failure
+	 *
 	 * @return List<WebElement> all elements within the current page DOM, or
 	 *         null (if the timeout is reached)
 	 */
 	public static List<WebElement> waitForListElementsPresent(WebDriver driver,
-			final By by, int timeOutInSeconds) {
+															  final By by, int timeOutInSeconds) {
 		List<WebElement> elements;
 		try {
 			driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS); // nullify
-																			// implicitlyWait()
+			// implicitlyWait()
 
 			WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
 			wait.until((new ExpectedCondition<Boolean>() {
@@ -149,11 +149,11 @@ public class WaitTool {
 					return areElementsPresent(driverObject, by);
 				}
 			}));
-			
+
 			elements = driver.findElements(by);
 			driver.manage().timeouts()
 					.implicitlyWait(DEFAULT_WAIT_4_PAGE, TimeUnit.SECONDS); // reset
-																			// implicitlyWait
+			// implicitlyWait
 			return elements; // return the element
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -164,43 +164,43 @@ public class WaitTool {
 	/**
 	 * Wait for an element to appear on the refreshed web-page. And returns the
 	 * first WebElement using the given method.
-	 * 
+	 *
 	 * This method is to deal with dynamic pages.
-	 * 
+	 *
 	 * Some sites I (Mark) have tested have required a page refresh to add
 	 * additional elements to the DOM. Generally you (Chon) wouldn't need to do
 	 * this in a typical AJAX scenario.
-	 * 
-	 * @param WebDriver
+	 *
+	 * @param driver
 	 *            The driver object to use to perform this element search
-	 * @param locator
+	 * @param by
 	 *            selector to find the element
-	 * @param int The time in seconds to wait until returning a failure
-	 * 
+	 * @param timeOutInSeconds The time in seconds to wait until returning a failure
+	 *
 	 * @return WebElement the first WebElement using the given method, or
 	 *         null(if the timeout is reached)
-	 * 
+	 *
 	 * @author Mark Collin
 	 */
 	public static WebElement waitForElementRefresh(WebDriver driver,
-			final By by, int timeOutInSeconds) {
+												   final By by, int timeOutInSeconds) {
 		WebElement element;
 		try {
 			driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS); // nullify
-																			// implicitlyWait()
+			// implicitlyWait()
 			new WebDriverWait(driver, timeOutInSeconds) {
 			}.until(new ExpectedCondition<Boolean>() {
 
 				public Boolean apply(WebDriver driverObject) {
 					driverObject.navigate().refresh(); // refresh the page
-														// ****************
+					// ****************
 					return isElementPresentAndDisplay(driverObject, by);
 				}
 			});
 			element = driver.findElement(by);
 			driver.manage().timeouts()
 					.implicitlyWait(DEFAULT_WAIT_4_PAGE, TimeUnit.SECONDS); // reset
-																			// implicitlyWait
+			// implicitlyWait
 			return element; // return the element
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -211,36 +211,36 @@ public class WaitTool {
 	/**
 	 * Wait for the Text to be present in the given element, regardless of being
 	 * displayed or not.
-	 * 
-	 * @param WebDriver
+	 *
+	 * @param driver
 	 *            The driver object to be used to wait and find the element
-	 * @param locator
+	 * @param by
 	 *            selector of the given element, which should contain the text
-	 * @param String
+	 * @param text
 	 *            The text we are looking
-	 * @param int The time in seconds to wait until returning a failure
-	 * 
+	 * @param timeOutInSeconds The time in seconds to wait until returning a failure
+	 *
 	 * @return boolean
 	 */
 	public static boolean waitForTextPresent(WebDriver driver, final By by,
-			final String text, int timeOutInSeconds) {
+											 final String text, int timeOutInSeconds) {
 		boolean isPresent = false;
 		try {
 			driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS); // nullify
-																			// implicitlyWait()
+			// implicitlyWait()
 			new WebDriverWait(driver, timeOutInSeconds) {
 			}.until(new ExpectedCondition<Boolean>() {
 
 				public Boolean apply(WebDriver driverObject) {
 					return isTextPresent(driverObject, by, text); // is the Text
-																	// in the
-																	// DOM
+					// in the
+					// DOM
 				}
 			});
 			isPresent = isTextPresent(driver, by, text);
 			driver.manage().timeouts()
 					.implicitlyWait(DEFAULT_WAIT_4_PAGE, TimeUnit.SECONDS); // reset
-																			// implicitlyWait
+			// implicitlyWait
 			return isPresent;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -252,24 +252,24 @@ public class WaitTool {
 
 	/**
 	 * Waits for the Condition of JavaScript.
-	 * 
-	 * 
-	 * @param WebDriver
+	 *
+	 *
+	 * @param driver
 	 *            The driver object to be used to wait and find the element
-	 * @param String
+	 * @param javaScript
 	 *            The javaScript condition we are waiting. e.g.
 	 *            "return (xmlhttp.readyState >= 2 && xmlhttp.status == 200)"
-	 * @param int The time in 4seconds to wait until returning a failure
-	 * 
+	 * @param timeOutInSeconds The time in 4seconds to wait until returning a failure
+	 *
 	 * @return boolean true or false(condition fail, or if the timeout is
 	 *         reached)
 	 **/
 	public static boolean waitForJavaScriptCondition(WebDriver driver,
-			final String javaScript, int timeOutInSeconds) {
+													 final String javaScript, int timeOutInSeconds) {
 		boolean jscondition = false;
 		try {
 			driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS); // nullify
-																			// implicitlyWait()
+			// implicitlyWait()
 			new WebDriverWait(driver, timeOutInSeconds) {
 			}.until(new ExpectedCondition<Boolean>() {
 
@@ -282,7 +282,7 @@ public class WaitTool {
 					.executeScript(javaScript);
 			driver.manage().timeouts()
 					.implicitlyWait(DEFAULT_WAIT_4_PAGE, TimeUnit.SECONDS); // reset
-																			// implicitlyWait
+			// implicitlyWait
 			return jscondition;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -293,20 +293,20 @@ public class WaitTool {
 	/**
 	 * Waits for the completion of Ajax jQuery processing by checking
 	 * "return jQuery.active == 0" condition.
-	 * 
-	 * @param WebDriver
+	 *
+	 * @param driver
 	 *            - The driver object to be used to wait and find the element
-	 * @param int - The time in seconds to wait until returning a failure
-	 * 
+	 * @param timeOutInSeconds - The time in seconds to wait until returning a failure
+	 *
 	 * @return boolean true or false(condition fail, or if the timeout is
 	 *         reached)
 	 * */
 	public static boolean waitForJQueryProcessing(WebDriver driver,
-			int timeOutInSeconds) {
+												  int timeOutInSeconds) {
 		boolean jQcondition = false;
 		try {
 			driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS); // nullify
-																			// implicitlyWait()
+			// implicitlyWait()
 			new WebDriverWait(driver, timeOutInSeconds) {
 			}.until(new ExpectedCondition<Boolean>() {
 
@@ -319,7 +319,7 @@ public class WaitTool {
 					.executeScript("return jQuery.active == 0");
 			driver.manage().timeouts()
 					.implicitlyWait(DEFAULT_WAIT_4_PAGE, TimeUnit.SECONDS); // reset
-																			// implicitlyWait
+			// implicitlyWait
 			return jQcondition;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -333,7 +333,7 @@ public class WaitTool {
 	 */
 	public static void nullifyImplicitWait(WebDriver driver) {
 		driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS); // nullify
-																		// implicitlyWait()
+		// implicitlyWait()
 	}
 
 	/**
@@ -350,27 +350,27 @@ public class WaitTool {
 	 */
 	public static void resetImplicitWait(WebDriver driver) {
 		driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS); // nullify
-																		// implicitlyWait()
+		// implicitlyWait()
 		driver.manage().timeouts()
 				.implicitlyWait(DEFAULT_WAIT_4_PAGE, TimeUnit.SECONDS); // reset
-																		// implicitlyWait
+		// implicitlyWait
 	}
 
 	/**
 	 * Reset ImplicitWait.
-	 * 
-	 * @param int - a new wait time in seconds
+	 *
+	 * @param newWaittime_InSeconds - a new wait time in seconds
 	 */
 	public static void resetImplicitWait(WebDriver driver,
-			int newWaittime_InSeconds) {
+										 int newWaittime_InSeconds) {
 		driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS); // nullify
-																		// implicitlyWait()
+		// implicitlyWait()
 		driver.manage().timeouts()
 				.implicitlyWait(newWaittime_InSeconds, TimeUnit.SECONDS); // reset
-																			// implicitlyWait
+		// implicitlyWait
 	}
-	
-	
+
+
 	public static void waitForPageLoad(WebDriver driver){
 		Wait<WebDriver> wait = new WebDriverWait(driver, 10);
 		wait.until(new Function<WebDriver, Boolean>() {
@@ -389,7 +389,7 @@ public class WaitTool {
 
 	/**
 	 * Checks if the text is present in the element.
-	 * 
+	 *
 	 * @param driver
 	 *            - The driver object to use to perform this element search
 	 * @param by
@@ -408,7 +408,7 @@ public class WaitTool {
 
 	/**
 	 * Checks if the elment is in the DOM, regardless of being displayed or not.
-	 * 
+	 *
 	 * @param driver
 	 *            - The driver object to use to perform this element search
 	 * @param by
@@ -418,8 +418,8 @@ public class WaitTool {
 	private static boolean isElementPresent(WebDriver driver, By by) {
 		try {
 			driver.findElement(by);// if it does not find the element throw
-									// NoSuchElementException, which calls
-									// "catch(Exception)" and returns false;
+			// NoSuchElementException, which calls
+			// "catch(Exception)" and returns false;
 			return true;
 		} catch (NoSuchElementException e) {
 			return false;
@@ -429,7 +429,7 @@ public class WaitTool {
 	/**
 	 * Checks if the List<WebElement> are in the DOM, regardless of being
 	 * displayed or not.
-	 * 
+	 *
 	 * @param driver
 	 *            - The driver object to use to perform this element search
 	 * @param by
@@ -447,7 +447,7 @@ public class WaitTool {
 
 	/**
 	 * Checks if the elment is in the DOM and displayed.
-	 * 
+	 *
 	 * @param driver
 	 *            - The driver object to use to perform this element search
 	 * @param by
@@ -471,7 +471,7 @@ public class WaitTool {
  * https://groups.google
  * .com/forum/?fromgroups=#!topic/selenium-users/6VO_7IXylgY 3. Explicit and
  * Implicit Waits: http://seleniumhq.org/docs/04_webdriver_advanced.html
- * 
+ *
  * Note: 1. Instead of creating new WebDriverWait() instance every time in each
  * methods, I tried to reuse a single WebDriverWait() instance, but I found and
  * tested that creating 100 WebDriverWait() instances takes less than one
