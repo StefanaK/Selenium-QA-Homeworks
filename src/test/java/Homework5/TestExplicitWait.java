@@ -29,7 +29,7 @@ public class TestExplicitWait {
         WebElement search = driver.findElement(By.id("imysearchstring"));
         search.clear();
 
-        search.sendKeys("Авксентийй Велешки 8");
+        search.sendKeys("Авксентий Велешки 8");
 
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.id("iautoCompleteDropDownContent")));
